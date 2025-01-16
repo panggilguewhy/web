@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Budget</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Budget</h1>
+        
+        <section>
+            <h2>Catat Pengeluaran</h2>
+            <form id="expense-form">
+                <input type="text" id="expense-name" placeholder="Nama Pengeluaran" required>
+                <input type="number" id="expense-amount" placeholder="Jumlah" required>
+                <button type="submit">Tambah Pengeluaran</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Daftar Pengeluaran</h2>
+            <ul id="expense-list"></ul>
+            <h3>Total Pengeluaran: <span id="total-expense">0</span></h3>
+        </section>
+
+        <section>
+            <h2>Atur Anggaran</h2>
+            <form id="budget-form">
+                <input type="number" id="budget-amount" placeholder="Anggaran Bulanan" required>
+                <button type="submit">Set Anggaran</button>
+            </form>
+            <h3>Anggaran: <span id="budget-display">0</span></h3>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const expenseForm = document.getElementById('expense-form');
+            const budgetForm = document.getElementById('budget-form');
+            const expenseList = document.getElementById('expense-list');
+            const totalExpenseDisplay = document.getElementById('total-expense');
+            const budgetDisplay = document.getElementById('budget-display');
+
+            let totalExpense = 0;
+            let budget = 0;
+
+            expenseForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const expenseName = document.getElementById('expense-name').value;
+                const expenseAmount = parseFloat(document.getElementById('expense-amount').value);
+
+                if (expenseAmount > 0) {
+                    totalExpense += expenseAmount;
+                    totalExpenseDisplay.textContent = totalExpense.toFixed(2);
+                    expenseList.innerHTML += `<li>${expenseName}: ${expenseAmount.toFixed(2)}</li>`;
+                    expenseForm.reset();
+                }
+            });
+
+            budgetForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                budget = parseFloat(document.getElementById('budget-amount').value);
+                budgetDisplay.textContent = budget.toFixed(2);
+                budgetForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
